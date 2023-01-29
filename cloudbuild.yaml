@@ -1,0 +1,7 @@
+steps:
+  - id: Build the application
+    name: 'buildpacksio/pack'
+    args: ['build', '--builder=gcr.io/buildpacks/builder', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic']
+  - id: Push the container
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic']
