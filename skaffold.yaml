@@ -11,5 +11,14 @@ deploy:
   cloudrun: {}
 profiles:
   - name: dev
+    manifests:
+      rawYaml:
+        - run-dev.yaml
   - name: staging
+    manifests:
+      rawYaml:
+        - run-staging.yaml
   - name: prod
+    manifests:
+      rawYaml:
+        - run-prod.yaml
