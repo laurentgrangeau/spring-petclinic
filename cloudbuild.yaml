@@ -1,4 +1,4 @@
 steps:
   - id: Build the application
-    name: 'gcr.io/k8s-skaffold/pack'
-    args: ['build', '--default-repo', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects']
+    name: 'gcr.io/k8s-skaffold/skaffold:slim'
+    args: ['skaffold, 'build', '--default-repo', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects']
