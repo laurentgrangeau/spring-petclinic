@@ -2,6 +2,8 @@ steps:
   - id: Build the application
     name: 'gcr.io/k8s-skaffold/pack'
     args: ['build', '--builder=gcr.io/buildpacks/builder', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic']
+    env:
+      - 'GOOGLE_RUNTIME_VERSION=17'
   - id: Push the container
     name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic']
