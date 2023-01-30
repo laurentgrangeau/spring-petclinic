@@ -16,5 +16,5 @@ steps:
         '--delivery-pipeline',
         'cloud-run-pipeline',
         '--images',
-        'spring-petclinic=europe-west1-docker.pkg.dev/lgu-demos/spring-projects:${SHORT_SHA}'
+        'spring-petclinic=europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic:${SHORT_SHA}'
       ]
