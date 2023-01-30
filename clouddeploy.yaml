@@ -6,11 +6,14 @@ description: Spring PetClinic deployment pipeline
 serialPipeline:
   stages:
   - targetId: dev-env
-    profiles: [dev]
+    profiles:
+      - dev
   - targetId: staging-env
-    profiles: [staging]
+    profiles:
+      - staging
   - targetId: prod-env
-    profiles: [prod]
+    profiles:
+      - prod
 ---
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
