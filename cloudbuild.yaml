@@ -10,6 +10,7 @@ steps:
         'releases',
         'create',
         'run-release-${SHORT_SHA}',
+        '--skaffold_version=skaffold_preview',
         '--region',
         'europe-west1',
         '--delivery-pipeline',
