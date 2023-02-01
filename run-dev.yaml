@@ -1,4 +1,4 @@
-apiVersion: serving.knative.dev/v1
+apiVersion: serving.knative.dev/v2
 kind: Service
 metadata:
   name: spring-petclinic-dev
@@ -8,6 +8,7 @@ spec:
       annotations:
         autoscaling.knative.dev/minScale: 1
         autoscaling.knative.dev/maxScale: 10
+        run.googleapis.com/binary-authorization: default
     spec:
       containers:
       - image: spring-petclinic
