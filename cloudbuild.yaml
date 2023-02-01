@@ -1,7 +1,7 @@
 steps:
   - id: Build the application
     name: 'gcr.io/k8s-skaffold/skaffold:slim'
-    args: ['skaffold', 'build', '--default-repo', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects']
+    args: ['skaffold', 'build', '--file-output', 'artifacts.json', '--default-repo', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects']
   - id: Create a Cloud Deploy release
     name: 'gcr.io/cloud-builders/gcloud'
     args:
@@ -15,6 +15,6 @@ steps:
         'europe-west1',
         '--delivery-pipeline',
         'cloud-run-pipeline',
-        '--images',
-        'spring-petclinic=europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic:${SHORT_SHA}'
+        '--build-artifacts',
+        'artifacts.json'
       ]
