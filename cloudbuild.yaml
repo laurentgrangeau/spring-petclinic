@@ -1,7 +1,12 @@
 steps:
+  # Build and push the application with Skaffold
   - id: Build the application
     name: 'gcr.io/k8s-skaffold/skaffold:slim'
     args: ['skaffold', 'build', '--file-output', 'artifacts.json', '--default-repo', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects']
+    options:
+      requestedVerifyOption: VERIFIED
+  
+  # Create a new release with Cloud Deploy
   - id: Create a Cloud Deploy release
     name: 'gcr.io/cloud-builders/gcloud'
     args:
