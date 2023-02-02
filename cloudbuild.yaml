@@ -22,5 +22,5 @@ steps:
         'artifacts.json'
       ]
 
-options:
-  requestedVerifyOption: VERIFIED
+images:
+  - europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic
