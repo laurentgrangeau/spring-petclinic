@@ -4,6 +4,17 @@ steps:
     name: 'gcr.io/k8s-skaffold/skaffold:slim'
     args: ['skaffold', 'build', '--file-output', 'artifacts.json', '--default-repo', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects']
   
+  # Create attestation to deploy only images built by Cloud Build
+  - id: Create attestation
+    name: "gcr.io/${PROJECT_ID}/binauthz-attestation:latest"
+    args:
+      - "--artifact-url"
+      - "europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic:${SHORT_SHA}"
+      - "--attestor"
+      - "projects/${PROJECT_ID}/attestors/built-by-cloud-build"
+      - "--keyversion"
+      - "projects/${PROJECT_ID}/locations/europe-west1/keyRings/binauthz-attestors/cryptoKeys/binauthz-signing-key/cryptoKeyVersions/1"
+
   # Create a new release with Cloud Deploy
   - id: Create a Cloud Deploy release
     name: 'gcr.io/cloud-builders/gcloud'
@@ -21,6 +32,3 @@ steps:
         '--build-artifacts',
         'artifacts.json'
       ]
-
-images:
-  - europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic
