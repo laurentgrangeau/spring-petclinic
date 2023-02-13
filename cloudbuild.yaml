@@ -4,6 +4,29 @@ steps:
     name: 'gcr.io/k8s-skaffold/skaffold:slim'
     args: ['skaffold', 'build', '--file-output', 'artifacts.json', '--default-repo', 'europe-west1-docker.pkg.dev/lgu-demos/spring-projects']
   
+  # Run a vulnerability scan
+  - id: Scan the image for vulnerabilities
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud artifacts docker images scan \
+        europe-west1-docker.pkg.dev/lgu-demos/spring-projects/spring-petclinic:${SHORT_SHA} \
+        --remote --location europe \
+        --format="value(response.scan)" > /workspace/scan_id.txt
+
+  # Analyze the result of the scan
+  - id: Check vulnerabilities severity
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud artifacts docker images list-vulnerabilities $(cat /workspace/scan_id.txt) \
+        --format="value(vulnerability.effectiveSeverity)" | if grep -Fxq CRITICAL; \
+        then echo "Failed vulnerability check for CRITICAL level" && exit 1; else echo "No CRITICAL vulnerability found, congrats !" && exit 0; fi
+
   # Create attestation to deploy only images built by Cloud Build
   - id: Create attestation
     name: "gcr.io/${PROJECT_ID}/binauthz-attestation:latest"
